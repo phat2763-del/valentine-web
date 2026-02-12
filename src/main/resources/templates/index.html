@@ -13,7 +13,8 @@ body{
     margin:0;
     font-family:Arial;
     min-height:100vh;
-    overflow:hidden;
+     overflow-x:hidden;
+    overflow-y:auto;
 
     background: 
         linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
@@ -25,14 +26,18 @@ body{
 
 /* ===== SCREEN ===== */
 .screen{
-    position:absolute;
-        inset:0;
+    position:relative;
+    width:100%;
+    min-height:100vh;
     display:flex;
-    justify-content:center;
-    align-items:center;
     flex-direction:column;
-    padding:15px;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    box-sizing:border-box;
+    text-align:center;
 }
+
 
 
 .hidden{ display:none; }
@@ -40,11 +45,13 @@ body{
 /* ===== INTRO ===== */
 .glow-text{
     color:white;
-    font-size:45px;
+    font-size:clamp(26px, 8vw, 45px);
     text-align:center;
+    line-height:1.3;
+    word-break:break-word;
     text-shadow:0 0 20px hotpink,0 0 40px pink;
-    animation:fadeIn 1s ease;
 }
+
 
 @keyframes fadeIn{
     from{opacity:0}
@@ -88,48 +95,41 @@ body{
 }
 
 
-.title{
-    font-family: 'Great Vibes', cursive;
-    font-size:60px;
-    text-align:center;
-    background: linear-gradient(45deg,#ffb6f9,#ff69b4,#ff1493);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    text-shadow:
-        0 0 15px #ff69b4,
-        0 0 30px #ff1493,
-        0 0 60px rgba(255,105,180,0.6);
-    margin-bottom:20px;
-}
 
 .couple{
     display:flex;
     align-items:center;
+    justify-content:center;
     gap:40px;
-    margin:20px;
+    width:100%;
+    max-width:900px;
 }
+
 
 .person{
-    text-align:center;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
+
 .person img{
-    width:160px;
-    height:160px;
+    width:clamp(140px, 22vw, 240px);
+    aspect-ratio:1/1;
     border-radius:50%;
     object-fit:cover;
-    box-shadow:0 0 30px hotpink;
-    transition:0.4s;
+    object-position:center;
 }
+
 
 .person img:hover{
     transform:scale(1.1);
 }
-
 .heart{
-    font-size:75px;
+    font-size:clamp(40px,7vw,80px);
     animation:heartbeat 1.4s infinite;
-    filter: drop-shadow(0 0 20px #ff4da6);
+    filter:drop-shadow(0 0 15px hotpink);
 }
 
 @keyframes heartbeat{
@@ -140,11 +140,6 @@ body{
     100%{transform:scale(1)}
 }
 
-@keyframes beat{
-    0%{transform:scale(1)}
-    50%{transform:scale(1.2)}
-    100%{transform:scale(1)}
-}
 
 /* ===== BUTTON ===== */
 .btn{
@@ -155,6 +150,8 @@ body{
     cursor:pointer;
     font-size:16px;
     transition:0.3s;
+        width:clamp(200px, 70%, 320px);
+    
 }
 
 .video-btn{
@@ -273,36 +270,17 @@ body > *:not(canvas){
     .couple{
         gap:80px;
     }
-
-    .title{
-        font-size:60px;
-    }
-
-    .person img{
-        width:200px;
-        height:200px;
-    }
 }
-@media (max-width: 500px){
-    .couple{
-        flex-direction:column;
-        gap:20px;
-    }
 
-    .person img{
-        width:130px;
-        height:130px;
-    }
 
-    .title{
-        font-size:28px;
-        text-align:center;
-    }
 
-    .heart{
-        font-size:40px;
-    }
-}
+
+
+
+
+  
+  
+
 /* ===== GALAXY BACKGROUND ===== */
 #stars{
     position:fixed;
@@ -313,26 +291,22 @@ body > *:not(canvas){
     z-index:0;
 }
 
-body > *:not(canvas){
-    position:relative;
-    z-index:2;
-}
 
-/* Title glow đẹp hơn */
+
 .title{
-    font-size:50px;
+    font-family:'Great Vibes', cursive;
+    font-size:clamp(28px, 6vw, 60px);
     text-align:center;
     background: linear-gradient(90deg, #ff9cfb, #ff5fd2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 20px #ff5fd2;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    text-shadow:0 0 20px #ff5fd2;
+    margin-bottom:20px;
 }
 
+
 /* Heart đẹp hơn */
-.heart{
-    font-size:70px;
-    filter: drop-shadow(0 0 15px hotpink);
-}
+
 #musicToggle{
     position:fixed;
     top:20px;
