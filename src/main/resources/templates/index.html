@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta charset="UTF-8">
+<title>Valentine 14/2 💖</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    min-height:100vh;
+    overflow:hidden;
+
+    background: 
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+        url('/background.jpg') no-repeat center center fixed;
+
+    background-size: cover;
+}
+
+
+/* ===== SCREEN ===== */
+.screen{
+    position:absolute;
+        inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    padding:15px;
+}
+
+
+.hidden{ display:none; }
+
+/* ===== INTRO ===== */
+.glow-text{
+    color:white;
+    font-size:45px;
+    text-align:center;
+    text-shadow:0 0 20px hotpink,0 0 40px pink;
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0}
+    to{opacity:1}
+}
+
+/* ===== PHONE ===== */
+.phone{
+    width:100%;
+    max-width:420px;
+    height:auto;
+    min-height:600px;
+    max-height:95vh;
+    background:#111;
+    border-radius:40px;
+    padding:20px;
+    box-shadow:0 0 40px hotpink;
+    display:flex;
+    flex-direction:column;
+}
+
+
+.search-bar{
+    background:white;
+    padding:12px;
+    border-radius:20px;
+    font-size:14px;
+}
+
+.result{
+    margin-top:30px;
+    color:white;
+    text-align:center;
+    font-size:18px;
+}
+
+/* ===== MAIN ===== */
+.main{
+    background: transparent;
+    color:white;
+}
+
+
+.title{
+    font-family: 'Great Vibes', cursive;
+    font-size:60px;
+    text-align:center;
+    background: linear-gradient(45deg,#ffb6f9,#ff69b4,#ff1493);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    text-shadow:
+        0 0 15px #ff69b4,
+        0 0 30px #ff1493,
+        0 0 60px rgba(255,105,180,0.6);
+    margin-bottom:20px;
+}
+
+.couple{
+    display:flex;
+    align-items:center;
+    gap:40px;
+    margin:20px;
+}
+
+.person{
+    text-align:center;
+}
+
+.person img{
+    width:160px;
+    height:160px;
+    border-radius:50%;
+    object-fit:cover;
+    box-shadow:0 0 30px hotpink;
+    transition:0.4s;
+}
+
+.person img:hover{
+    transform:scale(1.1);
+}
+
+.heart{
+    font-size:75px;
+    animation:heartbeat 1.4s infinite;
+    filter: drop-shadow(0 0 20px #ff4da6);
+}
+
+@keyframes heartbeat{
+    0%{transform:scale(1)}
+    25%{transform:scale(1.15)}
+    40%{transform:scale(1)}
+    60%{transform:scale(1.2)}
+    100%{transform:scale(1)}
+}
+
+@keyframes beat{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.2)}
+    100%{transform:scale(1)}
+}
+
+/* ===== BUTTON ===== */
+.btn{
+    padding:14px 35px;
+    margin:12px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    font-size:16px;
+    transition:0.3s;
+}
+
+.video-btn{
+    background:hotpink;
+    color:white;
+    box-shadow:0 0 20px hotpink;
+}
+
+.video-btn:hover{
+    transform:scale(1.1);
+}
+
+.lixi-btn{
+    background:red;
+    color:white;
+    box-shadow:0 0 20px red;
+}
+
+.lixi-btn:hover{
+    transform:scale(1.1);
+}
+
+/* ===== MODAL ===== */
+.modal{
+    z-index:5;
+
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.85);
+    justify-content:center;
+    align-items:center;
+}
+
+.video-box{
+   width:90%;   
+    box-shadow:0 0 40px hotpink;
+    border-radius:20px;
+    overflow:hidden;
+    animation:zoom 0.6s ease;
+       max-width:400px;
+}
+
+.video-box video{
+    width:100%;
+}
+
+@keyframes zoom{
+    from{transform:scale(0.6);opacity:0}
+    to{transform:scale(1);opacity:1}
+}
+
+/* ===== LIXI GAME ===== */
+.lixi-box{
+    background:#111;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 0 40px red;
+    text-align:center;
+    animation:zoom 0.5s ease;
+}
+
+.lixi-container{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    margin-top:20px;
+}
+
+.lixi{
+    font-size:60px;
+    cursor:pointer;
+    transition:0.3s;
+    color: gold;
+    font-weight: bold;
+    text-shadow: 0 0 10px orange;
+}
+
+.lixi:hover{
+    transform:scale(1.2);
+      color: white; 
+}
+
+.lixi.opened{
+    pointer-events:none;
+}
+
+.lixi-result{
+    margin-top:25px;
+    font-size:22px;
+    color:gold;
+}
+.lixi-box h2{
+    color: hotpink;   /* đổi màu chữ ở đây */
+}
+
+#fireworks{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:0; /* nằm dưới nội dung */
+    pointer-events:none;
+}
+
+body > *:not(canvas){
+    position:relative;
+    z-index:2; /* nội dung nổi lên trên */
+}
+@media (min-width: 768px){
+    .main{
+        padding:40px;
+    }
+
+    .couple{
+        gap:80px;
+    }
+
+    .title{
+        font-size:60px;
+    }
+
+    .person img{
+        width:200px;
+        height:200px;
+    }
+}
+@media (max-width: 500px){
+    .couple{
+        flex-direction:column;
+        gap:20px;
+    }
+
+    .person img{
+        width:130px;
+        height:130px;
+    }
+
+    .title{
+        font-size:28px;
+        text-align:center;
+    }
+
+    .heart{
+        font-size:40px;
+    }
+}
+/* ===== GALAXY BACKGROUND ===== */
+#stars{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+}
+
+body > *:not(canvas){
+    position:relative;
+    z-index:2;
+}
+
+/* Title glow đẹp hơn */
+.title{
+    font-size:50px;
+    text-align:center;
+    background: linear-gradient(90deg, #ff9cfb, #ff5fd2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px #ff5fd2;
+}
+
+/* Heart đẹp hơn */
+.heart{
+    font-size:70px;
+    filter: drop-shadow(0 0 15px hotpink);
+}
+#musicToggle{
+    position:fixed;
+    top:20px;
+    right:20px;
+    font-size:28px;
+    cursor:pointer;
+    z-index:10;
+    background:rgba(255,105,180,0.2);
+    padding:10px 14px;
+    border-radius:50%;
+    backdrop-filter: blur(5px);
+    box-shadow:0 0 15px hotpink;
+    transition:0.3s;
+}
+
+#musicToggle:hover{
+    transform:scale(1.2);
+    box-shadow:0 0 25px #ff4da6;
+}
+.chibi-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px; /* chỉ chạy trong vùng thấp */
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1; /* thấp hơn nội dung chính */
+}
+
+.chibi {
+    position: absolute;
+    width: 120px;
+    z-index: 1;
+}
+
+.big-heart {
+    z-index: 2;
+}
+
+.move-left {
+    animation: moveLeft 6s forwards;
+}
+
+.move-right {
+    animation: moveRight 6s forwards;
+}
+
+@keyframes moveLeft {
+    to {
+        left: calc(50% - 140px);
+    }
+}
+
+@keyframes moveRight {
+    to {
+        right: calc(50% - 140px);
+    }
+}
+
+
+.big-heart {
+    position: fixed;
+    bottom: 160px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    font-size: 60px;
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 6;
+}
+.main-content {
+    position: relative;
+    z-index: 5;
+}
+.right {
+    transform: scaleX(-1);
+}
+.left, .right {
+    animation-fill-mode: forwards;
+}
+.big-heart.active {
+    animation: heartPop 0.6s ease;
+}
+
+@keyframes heartPop {
+    0% { transform: translateX(-50%) scale(0); }
+    60% { transform: translateX(-50%) scale(1.4); }
+    100% { transform: translateX(-50%) scale(1.2); }
+}
+.left {
+    left: -150px;
+}
+
+.right {
+    right: -150px;
+}
+.hide-after {
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div id="intro" class="screen">
+    <div id="introText" class="glow-text"></div>
+</div>
+
+<!-- PHONE -->
+<div id="phoneScreen" class="screen hidden">
+    <div class="phone">
+        <div class="search-bar">
+            🔎 <span id="typing"></span>
+        </div>
+        <div id="result" class="result hidden">
+            📌 Theo Wikipedia:<br><br>
+            <b>14/2 là Ngày Valentine 💖</b><br><br>
+            hihi 😆
+        </div>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div id="mainScreen" class="screen main hidden">
+
+    <div class="title">Chúc mừng Valentine 14/2</div>
+
+    <div class="couple">
+        <div class="person">
+            <img th:src="@{/anh.jpg}">
+            <p>Lê Nhật Phát</p>
+        </div>
+
+        <div class="heart">❤️</div>
+
+        <div class="person">
+            <img th:src="@{/em.jpg}">
+            <p>Hồ Lê Huyền Trâm</p>
+        </div>
+    </div>
+
+    <button class="btn video-btn" onclick="playVideo()">💌 Điều anh muốn nói</button>
+    <button class="btn lixi-btn" onclick="openLixi()">🧧 Lì xì</button>
+
+</div>
+
+<!-- LIXI MODAL -->
+<div id="lixiModal" class="modal">
+    <div class="lixi-box">
+        <h2>Chọn 1 bao lì xì đi em 💌</h2>
+
+        <div class="lixi-container">
+            <div class="lixi" onclick="selectLixi(0)">🧧</div>
+            <div class="lixi" onclick="selectLixi(1)">🧧</div>
+            <div class="lixi" onclick="selectLixi(2)">🧧</div>
+            <div class="lixi" onclick="selectLixi(3)">🧧</div>
+            <div class="lixi" onclick="selectLixi(4)">🧧</div>
+        </div>
+
+        <div id="lixiResult" class="lixi-result"></div>
+    </div>
+</div>
+
+<!-- VIDEO -->
+<div id="videoModal" class="modal">
+    <div class="video-box">
+        <video controls>
+            <source th:src="@{/video.mp4}" type="video/mp4">
+        </video>
+    </div>
+</div>
+<canvas id="stars"></canvas>
+<audio id="bgMusic" loop>
+    <source th:src="@{/music.mp3}" type="audio/mpeg">
+</audio>
+
+<div id="musicToggle">🎵</div>
+<script>
+
+const lines=[
+"Chào mừng em đến với anh 💖",
+"Hôm nay là ngày gì nhỉ?",
+"Ngày gì ta?",
+"Hehe anh biết ngay mà 😏",
+"Để anh tra Google cho em nhaaaa..."
+];
+
+let index=0;
+let introText=document.getElementById("introText");
+
+function showLine(){
+    if(index<lines.length){
+        introText.innerText=lines[index];
+        index++;
+        setTimeout(showLine,2000);
+    }else{
+        document.getElementById("intro").classList.add("hidden");
+        showPhone();
+    }
+}
+
+function showPhone(){
+    document.getElementById("phoneScreen").classList.remove("hidden");
+    typeText("14/2 là ngày gì?");
+}
+
+function typeText(text){
+    let i=0;
+    let typing=document.getElementById("typing");
+    typing.innerHTML="";
+    let interval=setInterval(()=>{
+        typing.innerHTML+=text[i];
+        i++;
+        if(i>=text.length){
+            clearInterval(interval);
+            document.getElementById("result").classList.remove("hidden");
+            setTimeout(()=>{
+                document.getElementById("phoneScreen").classList.add("hidden");
+                document.getElementById("mainScreen").classList.remove("hidden");
+            },3000);
+
+
+
+        }
+    },100);
+}
+
+function playVideo(){
+    document.getElementById("videoModal").style.display="flex";
+}
+
+let prizes=[300,500,500,350,500];
+let chosenIndex=null;
+
+function openLixi(){
+    document.getElementById("lixiModal").style.display="flex";
+
+    if(localStorage.getItem("lixiPrize")){
+        showSavedLixi();
+    }
+}
+
+
+function selectLixi(index){
+
+    if(localStorage.getItem("lixiPrize")){
+        document.getElementById("lixiResult").innerHTML =
+            "💖 Em đã chọn rồi nhaaa 😝<br>Trúng: <b>"
+            + localStorage.getItem("lixiPrize") + "k 💖</b>";
+        return;
+    }
+
+    let shuffled = [...prizes].sort(()=>Math.random()-0.5);
+
+    let boxes = document.querySelectorAll(".lixi");
+
+    boxes.forEach((box,i)=>{
+        box.classList.add("opened");
+        box.innerHTML = shuffled[i] + "k";
+
+        if(i === index){
+            box.style.color = "hotpink";
+        }else{
+            box.style.color = "white";
+        }
+    });
+
+    let win = shuffled[index];
+
+    localStorage.setItem("lixiPrize", win);
+    localStorage.setItem("lixiIndex", index);
+    localStorage.setItem("lixiOrder", JSON.stringify(shuffled));
+
+    document.getElementById("lixiResult").innerHTML =
+        "🎉 Em trúng: <b>"+ win +"k 💖</b>";
+}
+
+
+// đóng video khi click ngoài
+const videoModal = document.getElementById("videoModal");
+
+// đóng video khi click ngoài
+videoModal.addEventListener("click", function(e){
+    if(e.target === videoModal){
+        videoModal.style.display = "none";
+        const video = videoModal.querySelector("video");
+        video.pause();
+        video.currentTime = 0;
+    }
+});
+
+// reset game lì xì khi đóng
+function resetLixi(){
+    chosenIndex = null;
+    document.getElementById("lixiResult").innerHTML = "";
+
+    localStorage.removeItem("lixiPrize");
+    localStorage.removeItem("lixiIndex");
+    localStorage.removeItem("lixiOrder");
+
+    let boxes = document.querySelectorAll(".lixi");
+    boxes.forEach(box=>{
+        box.classList.remove("opened");
+        box.innerHTML = "🧧";
+        box.style.color = "gold";
+    });
+}
+
+//===== GALAXY STAR EFFECT =====
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let stars = [];
+
+for(let i=0;i<220;i++){
+    stars.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        size: Math.random()*2,
+        speed: 0.2 + Math.random()*0.8
+    });
+}
+
+function drawStars(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    const colors = ["#ffffff","#ffd6ec","#ff9ecf","#ff66b2"];
+
+    stars.forEach(star=>{
+        ctx.beginPath();
+        ctx.fillStyle = colors[Math.floor(Math.random()*colors.length)];
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = ctx.fillStyle;
+        ctx.arc(star.x,star.y,star.size,0,Math.PI*2);
+        ctx.fill();
+
+        star.y += star.speed;
+
+        if(star.y > canvas.height){
+            star.y = 0;
+            star.x = Math.random()*canvas.width;
+        }
+    });
+
+    requestAnimationFrame(drawStars);
+}
+
+
+drawStars();
+
+window.addEventListener("resize",()=>{
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+document.addEventListener("DOMContentLoaded", function(){
+
+    const bgMusic = document.getElementById("bgMusic");
+    const musicToggle = document.getElementById("musicToggle");
+
+    let musicStarted = false;
+
+    function startMusic(){
+        if(!musicStarted){
+            bgMusic.volume = 0.5;
+            bgMusic.play().then(()=>{
+                musicStarted = true;
+            }).catch(err=>{
+                console.log("Autoplay bị chặn:", err);
+            });
+        }
+    }
+
+    document.addEventListener("click", startMusic);
+
+    musicToggle.addEventListener("click", function(e){
+        e.stopPropagation();
+
+        if(bgMusic.paused){
+            bgMusic.play();
+            musicToggle.innerHTML = "🎵";
+            musicToggle.style.opacity = "1";
+        }else{
+            bgMusic.pause();
+            musicToggle.innerHTML = "🔇";
+            musicToggle.style.opacity = "0.6";
+        }
+    });
+
+
+
+});   // ← QUAN TRỌNG: phải đóng đúng ở đây
+
+
+
+
+
+
+let heartInterval;
+
+function createFloatingHearts() {
+
+    if(heartInterval) return;
+
+    heartInterval = setInterval(() => {
+
+        const heart = document.createElement("div");
+        heart.innerHTML = "💗";
+
+        const container = document.querySelector(".chibi-container");
+        container.appendChild(heart);
+
+        heart.style.position = "absolute";
+        heart.style.left = "50%";
+        heart.style.bottom = "60px";
+        heart.style.transform = "translateX(-50%)";
+        heart.style.fontSize = "24px";
+        heart.style.opacity = "1";
+        heart.style.transition = "all 3s linear";
+        heart.style.zIndex = "5";
+
+        setTimeout(() => {
+            heart.style.bottom = "200px";
+            heart.style.opacity = "0";
+        }, 50);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 3000);
+
+    }, 800);
+}
+
+
+const lixiModal = document.getElementById("lixiModal");
+
+//đóng khi click ra ngoài
+lixiModal.addEventListener("click", function(e){
+ if(e.target === lixiModal){
+     lixiModal.style.display = "none";
+
+     if(!localStorage.getItem("lixiPrize")){
+         resetLixi();
+     }
+ }
+});
+
+function showSavedLixi(){
+
+ const savedPrize = localStorage.getItem("lixiPrize");
+ const savedIndex = localStorage.getItem("lixiIndex");
+ const savedOrder = JSON.parse(localStorage.getItem("lixiOrder"));
+
+ if(!savedPrize || !savedOrder) return;
+
+ let boxes = document.querySelectorAll(".lixi");
+
+ boxes.forEach((box,i)=>{
+     box.classList.add("opened");
+     box.innerHTML = savedOrder[i] + "k";
+
+     if(i == savedIndex){
+         box.style.color = "hotpink";
+     }else{
+         box.style.color = "white";
+     }
+ });
+
+ document.getElementById("lixiResult").innerHTML =
+     "💖 Em đã chọn rồi nhaaa 😝<br>Trúng: <b>"
+     + savedPrize + "k 💖</b>";
+}
+showLine();
+
+</script>
+<div class="chibi-container">
+    <img src="/1.gif" class="chibi left" id="chibiLeft">
+    <img src="/2.gif" class="chibi right" id="chibiRight">
+</div>
+
+<div class="big-heart" id="bigHeart">💖</div>
+
+
+</body>
+</html>
