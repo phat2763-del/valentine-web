@@ -414,6 +414,71 @@ body > *:not(canvas){
         transform: translateY(20px);
     }
 }
+/* ===== JOURNEY 3D ===== */
+.journey-box{
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    perspective:1200px;
+}
+
+#journeyCarousel{
+    position:relative;
+    width:300px;
+    height:300px;
+    transform-style:preserve-3d;
+    animation:journeyRotate 20s linear infinite;
+}
+
+.carousel-item{
+    position:absolute;
+    width:180px;
+    height:240px;
+}
+
+.carousel-item img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:20px;
+    box-shadow:0 0 30px hotpink;
+    animation:journeyGlow 2s infinite alternate;
+}
+
+/* Xếp vòng tròn */
+.carousel-item:nth-child(1){ transform:rotateY(0deg) translateZ(400px); }
+.carousel-item:nth-child(2){ transform:rotateY(60deg) translateZ(400px); }
+.carousel-item:nth-child(3){ transform:rotateY(120deg) translateZ(400px); }
+.carousel-item:nth-child(4){ transform:rotateY(180deg) translateZ(400px); }
+.carousel-item:nth-child(5){ transform:rotateY(240deg) translateZ(400px); }
+.carousel-item:nth-child(6){ transform:rotateY(300deg) translateZ(400px); }
+
+@keyframes journeyRotate{
+    from{ transform:rotateY(0deg); }
+    to{ transform:rotateY(-360deg); }
+}
+
+#journeyCarousel:hover {
+    animation-play-state: paused;
+}
+
+@keyframes journeyGlow{
+    from{ box-shadow:0 0 20px hotpink; }
+    to{ box-shadow:0 0 60px #ff4da6; }
+}
+
+/* Caption */
+.journey-caption{
+    margin-top:40px;
+    font-size:20px;
+    text-align:center;
+    min-height:30px;
+    color:white;
+    text-shadow:0 0 15px hotpink;
+}
 
 </style>
 
@@ -461,6 +526,9 @@ body > *:not(canvas){
 
     <button class="btn video-btn" onclick="playVideo()">💌 Điều anh muốn nói</button>
     <button class="btn lixi-btn" onclick="openLixi()">🧧 Lì xì</button>
+    <button class="btn video-btn" onclick="openJourney()">
+    ✨ Hành trình của tụi mình</button>
+    
 
 </div>
 
@@ -489,6 +557,41 @@ body > *:not(canvas){
         </video>
     </div>
 </div>
+<!-- JOURNEY MODAL -->
+<div id="journeyModal" class="modal">
+    <div class="journey-box">
+        <div class="carousel" id="journeyCarousel">
+
+            <div class="carousel-item" data-text="💞 Lần đầu gặp trực tiếp nè:D">
+                <img src="/j1.jpg">
+            </div>
+
+            <div class="carousel-item" data-text="🎬 Lần đầu đi xem phim cùng nhau">
+                <img src="/j2.jpg">
+            </div>
+
+            <div class="carousel-item" data-text="🌊 Lần đầu đột nhập vào trường">
+                <img src="/j3.jpg">
+            </div>
+
+            <div class="carousel-item" data-text="🍜 Lần đầu đi siêu thị với nhau;)">
+                <img src="/j4.jpg">
+            </div>
+
+            <div class="carousel-item" data-text="Lần đầu đi công viên">
+                <img src="/j5.jpg">
+            </div>
+
+            <div class="carousel-item" data-text="💖 Và còn rất nhiều lần đầu nữa">
+                <img src="/j6.jpg">
+            </div>
+
+        </div>
+
+        <div class="journey-caption" id="journeyCaption"></div>
+    </div>
+</div>
+
 <canvas id="stars"></canvas>
 <audio id="bgMusic" loop>
     <source th:src="@{/music.mp3}" type="audio/mpeg">
@@ -501,7 +604,7 @@ const lines=[
 "Chào mừng em đến với anh 💖",
 "Hôm nay là ngày gì nhỉ?",
 "Ngày gì ta?",
-"Hehe anh biết ngay mà 😏",
+"Sao mà biết được 😏",
 "Để anh tra Google cho em nhaaaa..."
 ];
 
@@ -793,6 +896,69 @@ function showSavedLixi(){
      + savedPrize + "k 💖</b>";
 }
 showLine();
+function updateJourneyCaption(){
+
+    const carousel = document.getElementById("journeyCarousel");
+    const items = document.querySelectorAll("#journeyCarousel .carousel-item");
+    const caption = document.getElementById("journeyCaption");
+
+    const style = window.getComputedStyle(carousel);
+    const transform = style.transform;
+
+    if(transform === "none") {
+        requestAnimationFrame(updateJourneyCaption);
+        return;
+    }
+
+    const matrix = new DOMMatrixReadOnly(transform);
+
+    let rotateY = Math.atan2(matrix.m13, matrix.m11) * (180 / Math.PI);
+    rotateY = (rotateY + 360) % 360;
+
+    const total = items.length;
+    const anglePerItem = 360 / total;
+
+    let index = Math.round(rotateY / anglePerItem) % total;
+
+    caption.innerText = items[index].dataset.text;
+
+    requestAnimationFrame(updateJourneyCaption);
+}
+
+function openJourney(){
+    document.getElementById("journeyModal").style.display="flex";
+    updateJourneyCaption();
+}
+
+const journeyModal = document.getElementById("journeyModal");
+
+journeyModal.addEventListener("click", function(e){
+    if(!e.target.closest(".carousel-container")){
+        closeJourney();
+    }
+});
+{
+        journeyModal.style.display = "none";
+
+        // reset animation 3D
+        const carousel = document.getElementById("journeyCarousel");
+        carousel.style.animation = "none";
+        setTimeout(()=>{
+            carousel.style.animation = "";
+        },10);
+    };
+    function closeJourney(){
+        const journeyModal = document.getElementById("journeyModal");
+        journeyModal.style.display = "none";
+
+        const carousel = document.getElementById("journeyCarousel");
+        carousel.style.animation = "none";
+        setTimeout(()=>{
+            carousel.style.animation = "";
+        },10);
+    }
+
+
 
 </script>
 <div class="chibi-container">
